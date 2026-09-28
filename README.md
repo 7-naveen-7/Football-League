@@ -7,9 +7,11 @@ Local web app for football auction: an **Admin Console** (import players, set ca
 ```
 winget install -e --id OpenJS.NodeJS
 ```
+## Go-to Website directory and then run these commands in terminal of VS Code
 
 ```bash
-npm install            # once, in the website folder
+npm install
+copy .env.example .env
 npm start
 ```
 
