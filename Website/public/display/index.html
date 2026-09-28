@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live Auction</title>
+<link rel="stylesheet" href="display.css">
+</head>
+<body>
+  <div class="bg-glow"></div>
+
+  <header class="topbar">
+    <div class="round-badge" id="roundBadge">ROUND 1</div>
+    <h1>Football Auction</h1>
+    <div class="counter" id="progressCounter">0 auctioned</div>
+  </header>
+
+  <main id="mainStage">
+
+    <section id="idleState" class="stage-panel hidden">
+      <h2>Waiting for the next player…</h2>
+    </section>
+
+    <section id="breakState" class="stage-panel hidden">
+      <h2>⏸ Break Time</h2>
+      <div class="break-timer" id="breakTimer">02:00</div>
+    </section>
+
+    <section id="finishedState" class="stage-panel hidden">
+      <h2>🏁 Auction Complete</h2>
+    </section>
+
+    <section id="playerStage" class="stage-panel hidden">
+      <div class="player-card" id="playerCard">
+        <div class="photo-wrap">
+          <img id="playerPhoto" src="" alt="Player photo">
+        </div>
+        <div class="player-info">
+          <div class="category-chip" id="playerCategory">ADVANCE</div>
+          <h2 id="playerName">Player Name</h2>
+          <div class="meta-row" id="playerPositions">Positions</div>
+          <div class="meta-row" id="playerClub">Favourite Club</div>
+          <div class="meta-row" id="playerExperience"></div>
+        </div>
+      </div>
+
+      <div class="bid-panel">
+        <div class="bid-block base">
+          <span class="label">Base Price</span>
+          <span class="value" id="basePrice">—</span>
+        </div>
+        <div class="bid-block current" id="currentBidBlock">
+          <span class="label">Current Bid</span>
+          <span class="value" id="currentBid">—</span>
+          <span class="team-tag" id="currentTeam"></span>
+        </div>
+        <div class="timer-col">
+          <div class="timer-wrap" id="timerWrap">
+            <svg viewBox="0 0 120 120" class="timer-ring">
+              <circle cx="60" cy="60" r="52" class="ring-bg"/>
+              <circle cx="60" cy="60" r="52" class="ring-fg" id="ringFg"/>
+            </svg>
+            <div class="timer-num" id="timerNum">20</div>
+          </div>
+          <div class="timer-label" id="timerLabel">&nbsp;</div>
+        </div>
+      </div>
+
+      <div class="teams-strip" id="teamsStrip"></div>
+    </section>
+
+    <div id="soldOverlay" class="overlay hidden">
+      <div class="overlay-content sold-anim">
+        <div class="stamp">SOLD</div>
+        <div class="overlay-team" id="soldTeamName"></div>
+        <div class="overlay-amount" id="soldAmount"></div>
+      </div>
+    </div>
+
+    <div id="unsoldOverlay" class="overlay hidden">
+      <div class="overlay-content unsold-anim">
+        <div class="stamp unsold">UNSOLD</div>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="display.js"></script>
+</body>
+</html>

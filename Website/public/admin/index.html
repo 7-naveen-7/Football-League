@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Console — Football Auction</title>
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<div class="app">
+  <nav class="sidebar">
+    <h2>⚽ Auction Admin</h2>
+    <button class="nav-btn active" data-tab="live">Live Auction</button>
+    <button class="nav-btn" data-tab="teams">Teams &amp; Captains</button>
+    <button class="nav-btn" data-tab="females">Female Players</button>
+    <button class="nav-btn" data-tab="players">All Players</button>
+    <button class="nav-btn" data-tab="import">Import Sheet</button>
+    <button class="nav-btn" data-tab="unsold">Unsold Pool</button>
+    <button class="nav-btn" data-tab="transfers">Transfers</button>
+    <button class="nav-btn" data-tab="teamview">Team Rosters</button>
+    <button id="logoutBtn" class="nav-btn logout">Log out</button>
+  </nav>
+
+  <main class="content">
+
+    <!-- LIVE AUCTION CONTROL -->
+    <section id="tab-live" class="tab active">
+      <h1>Live Auction Control</h1>
+      <div class="control-bar">
+        <select id="roundSelect">
+          <option value="1">Round 1 — Main Auction</option>
+          <option value="2">Round 2 — Unsold Players</option>
+        </select>
+        <button id="startBtn">Start / Restart</button>
+        <button id="pauseBtn">Pause</button>
+        <button id="resumeBtn">Resume</button>
+        <button id="resumeBreakBtn">Resume From Break</button>
+      </div>
+
+      <div class="live-grid">
+        <div class="live-player-panel">
+          <div id="liveCurrentPlayer" class="current-player-box">No active player.</div>
+          <div id="liveTimer" class="live-timer"></div>
+          <div class="live-actions">
+            <button id="soldBtn" class="btn-success">Mark Sold</button>
+            <button id="unsoldBtn" class="btn-danger">Mark Unsold</button>
+          </div>
+          <p class="hint">The countdown is a guide only — nothing happens automatically when it reaches zero. You decide Sold or Unsold.</p>
+        </div>
+        <div class="live-teams-panel">
+          <h3>Click a team to place their bid</h3>
+          <div id="liveTeamButtons" class="team-buttons-grid"></div>
+        </div>
+      </div>
+      <p id="liveError" class="error hidden"></p>
+    </section>
+
+    <!-- TEAMS & CAPTAINS -->
+    <section id="tab-teams" class="tab">
+      <h1>Teams &amp; Captains</h1>
+      <p class="hint">Every team has the same fixed purse. Captains cost nothing — pick each team's captain from the drop-down (predecided players are listed first).</p>
+      <form id="teamForm" class="inline-form">
+        <input type="text" id="teamName" placeholder="Team name" required>
+        <select id="teamCaptain"></select>
+        <button type="submit">Add Team</button>
+      </form>
+      <table class="data-table" id="teamsTable">
+        <thead><tr><th>Team</th><th>Captain</th><th>Purse Remaining</th><th>Male Squad</th><th>Females</th><th></th></tr></thead>
+        <tbody></tbody>
+      </table>
+
+      <h2>Predecided players (not captains)</h2>
+      <p class="hint">Choose the captains first — whoever is left here (the teammate of the injured player) can be placed in a team below.</p>
+      <table class="data-table" id="predecidedTable">
+        <thead><tr><th>Player</th><th>Category</th><th>Team</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <!-- FEMALE PLAYERS -->
+    <section id="tab-females" class="tab">
+      <h1>Female Players</h1>
+      <p class="hint">Assign each female player to a team here. This is admin-only: female players and their teams are never shown on the live auction screen.</p>
+      <p id="femaleSummary" class="hint"></p>
+      <table class="data-table" id="femalesTable">
+        <thead><tr><th>Photo</th><th>Name</th><th>Positions</th><th>Team</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <!-- ALL PLAYERS -->
+    <section id="tab-players" class="tab">
+      <h1>All Players</h1>
+      <form id="fixedPlayerForm" class="inline-form">
+        <input type="text" id="fpName" placeholder="Full name (fixed male player not in the sheet)" required>
+        <select id="fpCategory">
+          <option value="Advance">Advance</option>
+          <option value="Intermediate">Intermediate</option>
+          <option value="Beginner">Beginner</option>
+        </select>
+        <input type="text" id="fpPositions" placeholder="Preferred positions">
+        <input type="text" id="fpClub" placeholder="Favourite club">
+        <button type="submit">Add Fixed Player</button>
+      </form>
+      <div class="inline-form">
+        <input type="text" id="playerSearch" placeholder="Search by name...">
+        <select id="playerFilter">
+          <option value="all">Everyone</option>
+          <option value="pool">Auction pool (males)</option>
+          <option value="predecided">Predecided</option>
+          <option value="captains">Captains</option>
+          <option value="females">Females</option>
+          <option value="sold">Sold / allocated</option>
+        </select>
+      </div>
+      <table class="data-table" id="playersTable">
+        <thead><tr><th>Photo</th><th>Name</th><th>Gender</th><th>Category</th><th>Base</th><th>Status</th><th>Team</th><th>Price</th><th></th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <!-- IMPORT -->
+    <section id="tab-import" class="tab">
+      <h1>Import Player Sheet</h1>
+      <p class="hint">The workbook should have a <strong>Males</strong> sheet and a <strong>Females</strong> sheet. In the Males sheet, a <strong>Predecided</strong> column marked 1 keeps a player out of the auction (captains + the extra teammate). Females are never auctioned.</p>
+      <div class="card">
+        <h3>Option A — Upload the .xlsx file</h3>
+        <form id="uploadForm">
+          <input type="file" id="sheetFile" accept=".xlsx,.xls">
+          <button type="submit">Upload &amp; Import</button>
+        </form>
+      </div>
+      <div class="card">
+        <h3>Option B — Import from a path on the server</h3>
+        <form id="pathForm" class="inline-form">
+          <input type="text" id="sheetPath" placeholder="C:\path\to\players.xlsx" style="flex:1">
+          <button type="submit">Import</button>
+        </form>
+      </div>
+      <p id="importResult"></p>
+      <p class="hint">Every player gets a sample avatar on import. Re-running the import skips players already in the database.</p>
+
+      <div class="card">
+        <h3>Bulk Photo Upload</h3>
+        <p class="hint">
+          Rename each photo to the player's full name with underscores for spaces — e.g.
+          <code>Vijey Kumar S</code> → <code>Vijey_Kumar_S.jpg</code> — then select them all at once.
+          Matching ignores case and treats spaces/hyphens/underscores the same.
+        </p>
+        <form id="bulkPhotoForm">
+          <input type="file" id="bulkPhotoFiles" accept="image/*" multiple>
+          <button type="submit">Upload &amp; Match Photos</button>
+        </form>
+        <div id="bulkPhotoResult"></div>
+      </div>
+    </section>
+
+    <!-- UNSOLD POOL -->
+    <section id="tab-unsold" class="tab">
+      <h1>Unsold Player Distribution</h1>
+      <p class="hint">After Round 2, players still unsold appear here. Mark which teams request each one; if 2+ teams request the same player, Allocate picks one at random.</p>
+      <div id="unsoldList"></div>
+    </section>
+
+    <!-- TRANSFERS -->
+    <section id="tab-transfers" class="tab">
+      <h1>Post-Auction Transfers</h1>
+      <form id="transferForm" class="inline-form">
+        <select id="trPlayer"></select>
+        <select id="trToTeam"></select>
+        <input type="text" id="trNotes" placeholder="Notes (mutual consent confirmed, etc.)">
+        <button type="submit">Record Transfer</button>
+      </form>
+      <table class="data-table" id="transfersTable">
+        <thead><tr><th>Player</th><th>From</th><th>To</th><th>Type</th><th>When</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <!-- TEAM ROSTERS -->
+    <section id="tab-teamview" class="tab">
+      <h1>Team Rosters</h1>
+      <div id="teamRostersContainer"></div>
+    </section>
+
+  </main>
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>

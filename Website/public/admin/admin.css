@@ -1,0 +1,74 @@
+* { box-sizing: border-box; }
+body { margin: 0; font-family: 'Segoe UI', system-ui, sans-serif; background: #0f1420; color: #e8ecf4; }
+
+.login-body { display: flex; align-items: center; justify-content: center; height: 100vh; background: linear-gradient(135deg,#0f1420,#1a2438); }
+.login-card { background: #16203a; padding: 40px; border-radius: 16px; width: 320px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 20px 60px rgba(0,0,0,0.5); animation: pop 0.4s ease; }
+@keyframes pop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.login-card h1 { text-align: center; margin: 0 0 10px; }
+.login-card input { padding: 12px; border-radius: 8px; border: 1px solid #2a3654; background: #0f1420; color: #fff; }
+.login-card button { padding: 12px; border-radius: 8px; border: none; background: #38bdf8; color: #001018; font-weight: 700; cursor: pointer; }
+.login-card button:hover { background: #60cbfb; }
+.error { color: #f87171; text-align: center; font-size: 13px; }
+.hidden { display: none; }
+
+.app { display: flex; min-height: 100vh; }
+.sidebar { width: 220px; background: #131a2c; padding: 24px 16px; display: flex; flex-direction: column; gap: 6px; }
+.sidebar h2 { font-size: 16px; margin-bottom: 20px; }
+.nav-btn { text-align: left; background: none; border: none; color: #cfd6e6; padding: 12px 14px; border-radius: 8px; cursor: pointer; font-size: 14px; }
+.nav-btn:hover { background: #1e2a45; }
+.nav-btn.active { background: #38bdf8; color: #001018; font-weight: 700; }
+.nav-btn.logout { margin-top: auto; color: #f87171; }
+
+.content { flex: 1; padding: 30px 40px; overflow-y: auto; }
+.tab { display: none; animation: fadeIn 0.3s ease; }
+.tab.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+h1 { margin-top: 0; }
+.card { background: #16203a; padding: 20px; border-radius: 12px; margin-bottom: 20px; }
+.hint { opacity: 0.6; font-size: 13px; }
+
+.inline-form { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+.inline-form input, .inline-form select { padding: 10px; border-radius: 8px; border: 1px solid #2a3654; background: #16203a; color: #fff; }
+.inline-form button { padding: 10px 16px; border-radius: 8px; border: none; background: #38bdf8; color: #001018; font-weight: 700; cursor: pointer; }
+
+.data-table { width: 100%; border-collapse: collapse; background: #16203a; border-radius: 12px; overflow: hidden; }
+.data-table th, .data-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid #22304d; font-size: 14px; }
+.data-table th { background: #1c2740; opacity: 0.7; text-transform: uppercase; font-size: 11px; }
+.data-table img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; }
+
+.control-bar { display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; }
+.control-bar select, .control-bar button { padding: 10px 14px; border-radius: 8px; border: none; cursor: pointer; }
+.control-bar button { background: #2a3654; color: #fff; }
+#startBtn { background: #4ade80; color: #001a00; font-weight: 700; }
+
+.live-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.current-player-box { background: #16203a; padding: 24px; border-radius: 12px; min-height: 160px; }
+.current-player-box h3 { margin-top: 0; }
+.live-actions { display: flex; gap: 10px; margin-top: 16px; }
+.btn-success { background: #4ade80; color: #001a00; border: none; padding: 12px 20px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+.btn-danger { background: #f87171; color: #2a0000; border: none; padding: 12px 20px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+
+.team-buttons-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+.team-bid-btn { padding: 16px; border-radius: 10px; border: 1px solid #2a3654; background: #1c2740; color: #fff; cursor: pointer; text-align: left; transition: transform 0.15s; }
+.team-bid-btn:hover { transform: translateY(-2px); border-color: #38bdf8; }
+.team-bid-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.team-bid-btn .tb-name { font-weight: 700; }
+.team-bid-btn .tb-purse { font-size: 12px; opacity: 0.7; }
+.team-bid-btn .tb-next { font-size: 13px; color: #4ade80; margin-top: 4px; }
+
+.unsold-card { background: #16203a; padding: 16px; border-radius: 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
+.unsold-card .req-list { font-size: 13px; opacity: 0.8; }
+.unsold-card button { padding: 8px 14px; border-radius: 8px; border: none; background: #facc15; color: #1a1200; font-weight: 700; cursor: pointer; }
+
+/* ---- additions ---- */
+h2 { margin-top: 36px; }
+code { background: #22304d; padding: 1px 6px; border-radius: 4px; }
+.data-table select { padding: 6px 8px; border-radius: 6px; border: 1px solid #2a3654; background: #0f1420; color: #fff; max-width: 240px; }
+.data-table button { padding: 6px 12px; border-radius: 6px; border: none; background: #2a3654; color: #fff; cursor: pointer; }
+.live-timer { margin: 14px 0 0; font-size: 22px; font-weight: 700; min-height: 30px; }
+.live-timer.time-up { color: #f87171; animation: timeUpPulse 1s ease-in-out infinite; }
+.live-timer.paused { color: #facc15; }
+@keyframes timeUpPulse { 50% { opacity: 0.45; } }
+#importResult, #femaleSummary { margin: 12px 0; }
+#bulkPhotoResult { margin-top: 12px; font-size: 14px; }

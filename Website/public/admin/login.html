@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login — Football Auction</title>
+<link rel="stylesheet" href="admin.css">
+</head>
+<body class="login-body">
+  <form id="loginForm" class="login-card">
+    <h1>⚽ Auction Admin</h1>
+    <input type="text" id="username" placeholder="Username" autocomplete="username" required>
+    <input type="password" id="password" placeholder="Password" autocomplete="current-password" required>
+    <button type="submit">Log in</button>
+    <p id="loginError" class="error hidden">Invalid credentials.</p>
+  </form>
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const res = await fetch('/api/admin/login', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: document.getElementById('username').value,
+          password: document.getElementById('password').value
+        })
+      });
+      if (res.ok) window.location.href = '/admin/index.html';
+      else document.getElementById('loginError').classList.remove('hidden');
+    });
+  </script>
+</body>
+</html>
